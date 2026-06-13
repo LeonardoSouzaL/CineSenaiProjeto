@@ -31,16 +31,61 @@ const request = async (url, options = {}) => {
   return response.json();
 };
 export const api = {
-    auth: {
-        login: (email, senha) => 
-            request("/api/auth/login",{
-                method: "POST",
-                body: JSON.stringify({ email, senha }),
-            }),
-        cadastro: (nome, email, senha) =>
-            request("/api/auth/cadastro", {
-                method:"POST",
-                body:JSON.stringify({nome, email,senha})
-            })
-    }
-}
+  auth: {
+    login: (email, senha) =>
+      request("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, senha }),
+      }),
+    cadastro: (nome, email, senha) =>
+      request("/api/auth/cadastro", {
+        method: "POST",
+        body: JSON.stringify({ nome, email, senha }),
+      }),
+  },
+  filmes: {
+    listar: () => request("/api/filmes"),
+    buscarPorId: (id) => request(`/api/filmes/${id}`),
+    criar: (filme) =>
+      request("/api/filmes", {
+        method: "POST",
+        body: JSON.stringify(filme),
+      }),
+    atualizar: (filme, id) =>
+      request(`/api/filmes/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(filme),
+      }),
+    deletar: (id) =>
+      request(`/api/fimles/${id}`, {
+        method: "DELET",
+      }),
+  },
+  avaliacoes: {
+    listar: (filmeId) => request(`/api/filmes/${filmeId}/avaliacoes`),
+    criar: (filmeId, avalicao) =>
+      request(`/api/filme/${filmeId}/avaliacoes`, {
+        method: "POST",
+        body: JSON.stringify(avalicao),
+      }),
+  },
+  admin: {
+    listarReservas: () => request("/api/admin/reservas"),
+    gerarRelatorio: () => request("/api/admin/relatorios"),
+    promoverUsuario: (id) =>
+      request(`/api/admin/usuario/${id}/promover`, {
+        method: "PATCH",
+      }),
+  },
+  favoritos: {
+  listar: () => request("/api/favoritos"),   // TODO
+  adicionar: (filmeId) => request(`/api/${filmeId}/favoritos`,{
+    method: "POST",
+    body: JSON.stringify({filmeId}),
+  }), // TODO
+  remover: (filmeId) => request(`/api/favoritos/${filmeId}`,{
+    method: "DELET",
+  }),   // TODO
+  verificar: (filmeId) => request(`/api/favoritos/verificar?filmeId=${filmeId}`)
+  },
+};
